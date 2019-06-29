@@ -1,35 +1,59 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createStackNavigator, createAppContainer, createSwitchNavigator } from "react-navigation";
 
+import firebase from './FirebaseInit'
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-import * as firebase from 'firebase/app';
-import 'firebase/firestore';
+import HomeScreen from "./screenComponents/app/HomeScreen";
+import SignInScreen from "./screenComponents/authentication/SignInScreen";
+import LoadingScreen from "./screenComponents/LoadingScreen";
 
-firebase.initializeApp({
-  apiKey: "AIzaSyBF8BBKHxkeaeZmRPi8loPJaeWG-GPUQGM",
-  authDomain: "lists-1524d.firebaseapp.com",
-  databaseURL: "https://lists-1524d.firebaseio.com",
-  projectId: "lists-1524d",
-  storageBucket: "lists-1524d.appspot.com",
-  messagingSenderId: "592775772595",
-  appId: "1:592775772595:web:8174d4e77f79cd2c"
-});
-
-const firestore = firebase.firestore();
-
-export default async function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const AppStack = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        title: 'hi',
+      }
+    },
   },
+  {
+    initialRouteName: 'Home'
+  }
+)
+
+const AuthStack = createStackNavigator({ 
+  SignIn: SignInScreen 
 });
+
+const RootStack = createStackNavigator(
+  {
+    App: {
+      screen: AppStack,
+    },
+    MyModal: {
+      screen: LoadingScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
+const AuthContainer = createAppContainer(AuthStack);
+
+export default function App () {
+  const [user, initialising, error] = useAuthState(firebase.auth());
+
+  if (initialising) {
+    return <LoadingScreen/>
+  }
+
+  if (user) {
+    return <AppContainer/>
+  }
+
+  return <AuthContainer/>
+}

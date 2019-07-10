@@ -4,18 +4,27 @@ import { createStackNavigator, createAppContainer, createSwitchNavigator } from 
 import firebase from './FirebaseInit'
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-import HomeScreen from "./screenComponents/app/HomeScreen";
-import SignInScreen from "./screenComponents/authentication/SignInScreen";
-import LoadingScreen from "./screenComponents/LoadingScreen";
+import HomeScreen from "./src/screenComponents/app/HomeScreen";
+import SecondScreen from "./src/screenComponents/app/SecondScreen";
+import SignInScreen from "./src/screenComponents/authentication/SignInScreen";
+import LoadingScreen from "./src/screenComponents/LoadingScreen";
+
+import WelcomeModal from "./src/screenComponents/modals/Welcome";
 
 const AppStack = createStackNavigator(
   {
     Home: {
       screen: HomeScreen,
       navigationOptions: {
-        title: 'hi',
+        title: 'Home Screen',
       }
     },
+    Second: {
+      screen: SecondScreen,
+      navigationOptions: {
+        title: 'Second Screen',
+      }
+    }
   },
   {
     initialRouteName: 'Home'
@@ -32,7 +41,7 @@ const RootStack = createStackNavigator(
       screen: AppStack,
     },
     MyModal: {
-      screen: LoadingScreen,
+      screen: WelcomeModal,
     },
   },
   {

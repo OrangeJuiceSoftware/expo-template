@@ -1,15 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-
-import firebase from '../FirebaseInit'
-
-export default function AuthLoadingScreen() {
-
+export default function WelcomeModal() {
 
   return (
-    <Text>Auth Loading</Text>
+    <Text>Welcome. swipe down to dismiss</Text>
   );
 }
 

@@ -1,4 +1,6 @@
 {
+  "name": "expo-template",
+  "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start -c",
@@ -7,6 +9,13 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "author": {
+    "name": "Eric & Colton"
+  },
+  "contributors": [
+    "Colton Arabsky",
+    "Eric Leong"
+  ],
   "dependencies": {
     "expo": "33.0.0",
     "expo-font": "^5.0.1",
@@ -20,7 +29,8 @@
     "react-navigation": "^3.11.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.1.1"
+    "babel-preset-expo": "^5.1.1",
+    "eslint": "6.1.0"
   },
   "private": true
 }

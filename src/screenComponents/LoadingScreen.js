@@ -1,9 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 export default function AuthLoadingScreen() {
-
-
   return (
     <Text>Auth Loading</Text>
   );

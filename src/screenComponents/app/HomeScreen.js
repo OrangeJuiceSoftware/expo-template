@@ -12,13 +12,15 @@ export default function Main(props) {
   const {navigation} = props
 
   const userID = firebase.auth().currentUser.uid;
-  const [userValue, userValueLoading, userValueError] = useDocumentData(firestore.collection('user-values').doc(userID), {idField: 'id'});
+  const [userDocument, userDocumentLoading, userDocumentError] = useDocumentData(firestore.collection('user-values').doc(userID), {idField: 'id'});
+
+  const userValue = userDocument && userDocument.value || 0;
 
   const incrementValue = () => {
     firestore.collection('user-values')
       .doc(userID)
       .set({
-        value: userValue && userValue.value + 1 || 1
+        value: userValue + 1
       });
   };
 
@@ -26,7 +28,7 @@ export default function Main(props) {
     firestore.collection('user-values')
       .doc(userID)
       .set({
-        value: userValue && userValue.value - 1 || 0
+        value: userValue - 1
       });
   };
 
@@ -40,7 +42,7 @@ export default function Main(props) {
         <Text>Open Second Screen</Text>
       </Button>
 
-      <Text>Your value: {userValue && userValue.value}</Text>
+      <Text>Your value: {userValue}</Text>
       <Button onPress={() => incrementValue()}>
         <Text>Increment</Text>
       </Button>

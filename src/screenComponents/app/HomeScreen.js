@@ -1,40 +1,28 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-
 import { Text, Button } from 'native-base';
 
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 
-import firebase from '../../../FirebaseInit'
+import firebase from '../../../FirebaseInit';
 const firestore = firebase.firestore();
 
+import {
+  incrementUserValue,
+  decrementUserValue
+} from '../../../services/userValues';
+
 export default function Main(props) {
-  const {navigation} = props
+  const {navigation} = props;
 
   const userID = firebase.auth().currentUser.uid;
   const [userDocument, userDocumentLoading, userDocumentError] = useDocumentData(firestore.collection('user-values').doc(userID), {idField: 'id'});
 
   const userValue = userDocument && userDocument.value || 0;
 
-  const incrementValue = () => {
-    firestore.collection('user-values')
-      .doc(userID)
-      .set({
-        value: userValue + 1
-      });
-  };
-
-  const decrementValue = () => {
-    firestore.collection('user-values')
-      .doc(userID)
-      .set({
-        value: userValue - 1
-      });
-  };
-
   return (
     <>
-      <Button onPress={() => props.navigation.navigate('MyModal')}>
+      <Button onPress={() => navigation.navigate('MyModal')}>
         <Text>Open Modal</Text>
       </Button>
 
@@ -43,10 +31,10 @@ export default function Main(props) {
       </Button>
 
       <Text>Your value: {userValue}</Text>
-      <Button onPress={() => incrementValue()}>
+      <Button onPress={() => incrementUserValue(userID)}>
         <Text>Increment</Text>
       </Button>
-      <Button onPress={() => decrementValue()}>
+      <Button onPress={() => decrementUserValue(userID)}>
         <Text>Decrement</Text>
       </Button>
 

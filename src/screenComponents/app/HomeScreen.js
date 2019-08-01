@@ -1,32 +1,47 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
+import { StyleSheet } from 'react-native';
 import { Text, Button } from 'native-base';
 
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 
-import firebase from '../../../FirebaseInit'
+import firebase from '../../../FirebaseInit';
 const firestore = firebase.firestore();
 
+import {
+  incrementUserValue,
+  decrementUserValue
+} from '../../../services/userValues';
+
 export default function Main(props) {
-  const {navigation} = props
-  const [values, loading, error] = useCollectionData(firestore.collection('collection'), {idField: 'id'});
-  
+  const {navigation} = props;
+
+  const userID = firebase.auth().currentUser.uid;
+  const [userDocument, userDocumentLoading, userDocumentError] = useDocumentData(firestore.collection('user-values').doc(userID), {idField: 'id'});
+
+  const userValue = userDocument && userDocument.value || 0;
+
   return (
     <>
-      <Button onPress={() => props.navigation.navigate('MyModal')}>
-        <Text>Modal</Text>
+      <Button onPress={() => navigation.navigate('MyModal')}>
+        <Text>Open Modal</Text>
       </Button>
-
 
       <Button onPress={() => navigation.navigate("Second")}>
-        <Text>Second Screen</Text>
+        <Text>Open Second Screen</Text>
       </Button>
-        
+
+      <Text>Your value: {userValue}</Text>
+      <Button onPress={() => incrementUserValue(userID)}>
+        <Text>Increment</Text>
+      </Button>
+      <Button onPress={() => decrementUserValue(userID)}>
+        <Text>Decrement</Text>
+      </Button>
+
       <Button onPress={() => firebase.auth().signOut()}>
         <Text>Sign Out</Text>
       </Button>
-        
+
     </>
   );
 }

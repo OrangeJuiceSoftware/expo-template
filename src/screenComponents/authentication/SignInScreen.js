@@ -1,17 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-
-import firebase from '../../../FirebaseInit'
-const firestore = firebase.firestore();
+import firebase from '../../../FirebaseInit';
+const firebaseAuth = firebase.auth();
 
 export default function SignInScreen() {
-  const [values, loading, error] = useCollectionData(firestore.collection('collection'), {idField: 'id'});
-
   const signInAsGuest = async () => {
     try {
-      firebase.auth().signInAnonymously()
+      await firebaseAuth.signInAnonymously()
     } catch (e) {
       console.log(e);
     }

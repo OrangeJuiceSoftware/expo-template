@@ -5,6 +5,9 @@ import {
   createSwitchNavigator
 } from 'react-navigation';
 
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
+
 import firebase from './FirebaseInit'
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -32,8 +35,13 @@ const AppStack = createStackNavigator({
   initialRouteName: 'Home'
 })
 
-const AuthStack = createStackNavigator({
-  SignIn: SignInScreen
+const AuthStack = createStackNavigator({ 
+  SignIn: {
+    screen: SignInScreen,
+    navigationOptions: {
+      title: 'Sign In',
+    }
+  }
 });
 
 const RootStack = createStackNavigator({
@@ -51,8 +59,36 @@ const RootStack = createStackNavigator({
 const AppContainer = createAppContainer(RootStack);
 const AuthContainer = createAppContainer(AuthStack);
 
+async function registerForPushNotificationsAsync() {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  let finalStatus = existingStatus;
+
+  // only ask if permissions have not already been determined, because
+  // iOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // Android remote notification permissions are granted during the app
+    // install, so this will only ask on iOS
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  // Stop here if the user did not grant permissions
+  if (finalStatus !== 'granted') {
+    return;
+  }
+
+  // Get the token that uniquely identifies this device
+  let token = await Notifications.getExpoPushTokenAsync();
+
+  // TODO save this somewhere
+  console.log(token);
+}
+
 export default () => {
   const [user, initialising, error] = useAuthState(firebase.auth());
+  registerForPushNotificationsAsync();
 
   if (initialising) {
     return <LoadingScreen />;

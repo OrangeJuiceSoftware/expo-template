@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   createStackNavigator,
   createAppContainer,
@@ -17,6 +17,9 @@ import SignInScreen from './src/screenComponents/authentication/SignInScreen';
 import LoadingScreen from './src/screenComponents/LoadingScreen';
 
 import WelcomeModal from './src/screenComponents/modals/Welcome';
+
+import { Root, Container, Content } from 'native-base';
+
 
 const AppStack = createStackNavigator({
   Home: {
@@ -88,15 +91,22 @@ async function registerForPushNotificationsAsync() {
 
 export default () => {
   const [user, initialising, error] = useAuthState(firebase.auth());
-  registerForPushNotificationsAsync();
+
+  // This is here for illustrative purposes
+  // We advise calling this at a more convinient time for the user
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+  }, [])
 
   if (initialising) {
-    return <LoadingScreen />;
+    return <LoadingScreen/>;
   }
 
   if (user) {
-    return <AppContainer />;
+    return <AppContainer/>;
   }
 
-  return <AuthContainer />;
+  return (
+      <AuthContainer/>
+  )
 }

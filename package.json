@@ -26,8 +26,7 @@
     "react-dom": "16.8.6",
     "react-firebase-hooks": "2.0.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
-    "react-navigation": "3.11.0",
-    "react-native-easy-grid": "^0.2.1"
+    "react-navigation": "3.11.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1",

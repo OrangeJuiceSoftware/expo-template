@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-import { Container, Header, Content, Form, Item, Input, Button, Icon } from 'native-base';
+import { Root, Container, Content, Form, Item, Input, Button, Text } from 'native-base';
 
 import firebase from '../../../FirebaseInit';
 const firebaseAuth = firebase.auth();
@@ -10,14 +9,18 @@ const useInput = initialValue => {
   const [value, setValue] = useState(initialValue);
 
   return [
+    // value
     value,
+    // bind
     {
       value,
       onChangeText: text => {
         setValue(text);
       }
     },
+    // reset
     () => setValue(""),
+    // set
     setValue
   ];
 };
@@ -45,25 +48,31 @@ export default function SignInScreen() {
   }
 
   return (
-    <Container>
-      <Content>
-        <Form>
-          <Item>
-            <Input {...bindEmail} placeholder={'email'}/>
-            {emailError && <Text>{emailError.code}</Text>}
-          </Item>
+    <Root>
+      <Container>
+        <Content>
+            
+          <Form style={{width: '60%'}}>
+            <Item rounded>
+              <Input {...bindEmail} placeholder={'email'}/>
+              {emailError && <Text>{emailError.code}</Text>}
+            </Item>
 
-          <Item last>
-            <Input {...bindPassword} placeholder={'password'}/>
-          </Item>
-        </Form>
+            <Item rounded>
+              <Input {...bindPassword} placeholder={'password'}/>
+            </Item>
+          </Form>
 
-        <Button onPress={() => signUpWithEmail(email, password)}>
-          <Text>Sign Up</Text>
-        </Button>
+          <Button
+            block 
+            onPress={() => signUpWithEmail(email, password)}>
+            <Text>Sign Up</Text>
+          </Button>
 
-        <Text onPress={signInAsGuest}>Continue as guest</Text>
-      </Content>
-    </Container>
+          <Text onPress={signInAsGuest}>Continue as guest</Text>
+
+        </Content>
+      </Container>
+    </Root>
   );
 }

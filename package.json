@@ -21,7 +21,6 @@
     "expo-font": "5.0.1",
     "firebase": "6.3.3",
     "native-base": "2.12.1",
-    "expo-permissions": "^5.0.1",
     "react": "16.8.3",
     "react-dom": "16.8.6",
     "react-firebase-hooks": "2.0.0",

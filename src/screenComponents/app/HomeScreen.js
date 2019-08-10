@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Text, Button } from 'native-base';
+import { Text, Button, Toast } from 'native-base';
 
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 
@@ -28,6 +28,16 @@ export default function Main(props) {
 
       <Button onPress={() => navigation.navigate("Second")}>
         <Text>Open Second Screen</Text>
+      </Button>
+
+      <Button
+        onPress={() =>
+          Toast.show({
+            text: "Too Much Sauce...",
+            buttonText: "Yeet"
+          })}
+          >
+        <Text>Toast</Text>
       </Button>
 
       <Text>Your value: {userValue}</Text>

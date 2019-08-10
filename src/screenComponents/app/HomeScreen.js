@@ -31,11 +31,10 @@ export default function Main(props) {
       </Button>
 
       <Button
-        full
         onPress={() =>
           Toast.show({
-            text: "Wrong password!",
-            buttonText: "Okay"
+            text: "Too Much Sauce...",
+            buttonText: "Yeet"
           })}
           >
         <Text>Toast</Text>

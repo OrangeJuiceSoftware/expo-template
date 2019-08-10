@@ -18,8 +18,10 @@ import LoadingScreen from './src/screenComponents/LoadingScreen';
 
 import WelcomeModal from './src/screenComponents/modals/Welcome';
 
-import { Root, Container, Content } from 'native-base';
+import { Root, Container, StyleProvider } from 'native-base';
 
+import getTheme from './native-base-theme/components';
+import material from './native-base-theme/variables/custom';
 
 const AppStack = createStackNavigator({
   Home: {
@@ -103,10 +105,24 @@ export default () => {
   }
 
   if (user) {
-    return <AppContainer/>;
+    return (    
+      <StyleProvider style={getTheme(material)}>
+        <Root>
+          <Container>
+            <AppContainer/>
+          </Container>
+        </Root>
+      </StyleProvider>
+    )
   }
 
-  return (
-      <AuthContainer/>
+  return (    
+    <StyleProvider style={getTheme(material)}>
+      <Root>
+        <Container>
+          <AuthContainer/>
+        </Container>
+      </Root>
+    </StyleProvider>
   )
 }

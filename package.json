@@ -17,7 +17,7 @@
     "Eric Leong"
   ],
   "dependencies": {
-    "expo": "33.0.0",
+    "expo": "46.0.16",
     "expo-font": "5.0.1",
     "firebase": "6.3.3",
     "native-base": "2.12.1",
